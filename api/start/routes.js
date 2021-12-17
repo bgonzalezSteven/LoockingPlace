@@ -90,6 +90,7 @@ addPrefixToGroup(
     Route.post('customer', 'CustomerController.store')
     Route.get('getcustomer/:id', 'CustomerController.show')
     Route.delete('customerId/:id', 'CustomerController.destroy')
+    Route.get('getCustomer', 'CustomerController.getinfo')
     // Rutas para los Clientes //
 
 

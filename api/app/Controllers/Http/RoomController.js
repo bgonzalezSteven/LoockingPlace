@@ -74,7 +74,16 @@ class RoomController {
       if (date._id) {
         response.status(204).send(await Room.where('_id', date._id).update(date))
       } else {
-        response.status(200).send(await Room.create(date))
+        if ((await Room.where('roomsType', date.roomsType).where('capacity', date.capacity).first())) {
+          const temp = await Room.where('roomsType', date.roomsType).where('capacity', date.capacity).update(date)
+          response.status(423).unprocessableEntity([{
+            status: 423,
+            message: 'Ya existe una habitación con ese tipo y capacidad, se modifico su precio'
+          }])
+        } else {
+          console.log('no existe similar')
+          response.status(200).send(await Room.create(date))
+        }
       }
     }
     

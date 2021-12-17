@@ -33,7 +33,7 @@ export default function (/* { store, ssrContext } */) {
       const can = store.getters.can()(to.meta.permission)
       if (!can) {
         Notify.create({
-          message: 'Ruta no encontrada. Inicia sesión nuevamente',
+          message: 'Ruta no encontrada.',
           color: 'black'
         })
         next('/')

@@ -30,6 +30,10 @@ const routes = [
       { path: '/customer', component: () => import('pages/Manager/Customer/List.vue'), meta: { permission: 'reservation.client'} },
       { path: '/customer/agg_customer', component: () => import('pages/Manager/Customer/Form.vue'), meta: { permission: 'reservation.client'} },
       { path: '/customer/edit_customer/:id', component: () => import('pages/Manager/Customer/Form.vue'), meta: { permission: 'reservation.client'} },
+      // Rutas para las reservaciones
+      { path: '/reservation', component: () => import('pages/Manager/Reservation/List.vue'), meta: { permission: 'reservation.list'} },
+      { path: '/reservation/agg_reservation', component: () => import('pages/Manager/Reservation/Form.vue'), meta: { permission: 'reservation.list'} },
+      { path: '/reservation/edit_reservation/:id', component: () => import('pages/Manager/Reservation/Form.vue'), meta: { permission: 'reservation.list'} },
     ]
   },
   {

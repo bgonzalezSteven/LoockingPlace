@@ -28,13 +28,13 @@ class TypesRoomController {
     let allRoom = []
     for (let i = 1; i <= infoHotel.countHabitations; i++) {
       allRoom.push(i)
-    } // Todas las habitaciones del hotel
+    } // Todas las habitaciones del hotel)
     if (countHabitations.length > 0) {
       for (let i in countHabitations) {
         const temp = countHabitations[i].range
         for (let j in temp) {
           const index = (allRoom.indexOf(temp[j]))
-          allRoom.splice(index, 1)          
+          allRoom.splice(index, 1)
         }
       }
       return allRoom
@@ -103,8 +103,18 @@ class TypesRoomController {
         message: creation
       })
     } else {
-      console.log('New')
+      if ((await TypesRoom.where('_idRoom', ingresate._idRoom).first())) {
+        console.log('Push in range')
+        const info = (await TypesRoom.where('_idRoom', ingresate._idRoom).first())
+        const tempConcat = info.range.concat(ingresate.range)
+        let edition = (await TypesRoom.where('_idRoom', ingresate._idRoom).update({ range: tempConcat }))
+        return ({
+          band: true,
+          message: edition
+        })
+      } 
       if (((await TypesRoom.all()).toJSON()).length > 0) {
+        console.log('New')
         const info = ((await TypesRoom.all()).toJSON())
         for (let i in info) {
           const temp = info[i].range
@@ -206,7 +216,7 @@ class TypesRoomController {
         const temp = countHabitations[i].range
         for (let j in temp) {
           const index = (allRoom.indexOf(temp[j]))
-          allRoom.splice(index, 1)          
+          allRoom.splice(index, 1)
         }
       }
     }

@@ -233,7 +233,7 @@ export default {
             },
             {
               name: "Reservas",
-              url: "/",
+              url: "/reservation",
               icon: "border_color",
               permission: "reservation.list",
             },

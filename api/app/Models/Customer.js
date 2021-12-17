@@ -18,6 +18,9 @@ class Customer extends Model {
       email: 'string',
     }
   }
+  count () {
+    return this.hasMany('App/Models/TypesRoom', '_idHotel', '_idHotel')
+  }
 }
 
 module.exports = Customer

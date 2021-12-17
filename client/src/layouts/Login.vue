@@ -91,7 +91,7 @@
         </q-parallax>
         <template v-else>
             <div class="col row justify-center justify-center">
-              <q-card class="men" style="border-radius: 40px">
+              <q-card class="men" style="border-radius: 40px;margin-top: 4em;">
                     <q-card-section class="row justify-center items-center">
                       <q-img style="width: 60%" src="../assets/logo.png" />
                       <div class="text-h5">Loocking Place</div>
