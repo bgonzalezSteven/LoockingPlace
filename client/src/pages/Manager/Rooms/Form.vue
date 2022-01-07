@@ -78,7 +78,7 @@ export default {
       id: "",
       form: {},
       money: {
-        decimal: ",",
+        decimal: ".",
         thousands: ".",
         // suffix: " #",
         precision: 2,

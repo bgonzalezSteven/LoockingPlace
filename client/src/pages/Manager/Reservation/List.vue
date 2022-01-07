@@ -75,7 +75,7 @@
       </template>
     </vs-dialog>
     <q-dialog v-model="band" persistent>
-      <q-card>
+      <q-card style="min-width: 380px;">
         <q-bar class="bg-secondary">
           <q-space />
           <q-btn dense flat icon="close" v-close-popup>

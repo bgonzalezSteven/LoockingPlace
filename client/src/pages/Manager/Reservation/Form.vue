@@ -134,6 +134,69 @@
               /></q-item-label>
             </q-item-section>
           </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label class="text-bold text-caption">
+                Noches
+              </q-item-label>
+              <q-item-label>
+                <q-input
+                  filled
+                  v-model="form.entryDate"
+                  mask="form.entryDate"
+                  :rules="['form.entryDate']"
+                >
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="form.entryDate">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Perfecto"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-input
+                  filled
+                  v-model="form.exitDate"
+                  mask="form.exitDate"
+                  :rules="['form.exitDate']"
+                >
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="form.exitDate">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Perfecto"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
           <!--<q-item>
         <q-item-section>
           <q-item-label class="text-bold text-caption"
@@ -167,7 +230,7 @@
       </q-item>Metodo de pago-->
         </q-list>
       </div>
-      <div class="col">
+      <!--<div class="col">
         <q-item>
           <q-item-section>
             <q-item-label class="text-bold text-caption"
@@ -178,16 +241,58 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-      </div>
+      </div>-->
     </div>
-
     <template>
-      <vs-button @click="submit">Reservar</vs-button>
+      <vs-button block @click="submit">Calcular costo</vs-button>
+    </template>
+    <template>
+      <div class="center">
+        <vs-dialog blur v-model="active">
+          <template #header>
+            <h4 class="not-margin"><b>Metodo de Pago</b></h4>
+          </template>
+
+          <div class="con-form"></div>
+          <q-list>
+            <q-item>
+              <q-item-label class="text-bold">Costo: {{parseFloat(form.paypament.coste)}}</q-item-label>
+            </q-item>
+          </q-list>
+          <template #footer>
+            <div class="footer-dialog">
+              <vs-button block> Reservar </vs-button>
+            </div>
+          </template>
+        </vs-dialog>
+      </div>
     </template>
   </div>
 </template>
 <script>
+import moment from 'moment'
+import currency from 'currency.js'
+import { required } from "vuelidate/lib/validators";
 export default {
+  validations: {
+    form: {
+      customer: {
+        required,
+      },
+      entryDate: {
+        required,
+      },
+      exitDate: {
+        required,
+      },
+      room: {
+        required,
+      },
+      service: {
+        required,
+      },
+    },
+  },
   mounted() {
     this.getCustomer();
   },
@@ -200,10 +305,16 @@ export default {
           coste: 0.0,
           capacity: 0,
         },
+        paypament: {
+          coste: 0.0
+        },
+        entryDate: "2021/02/01",
+        exitDate: "2021/02/01",
       },
       options: [],
       options2: [],
       options3: [],
+      active: false,
     };
   },
   methods: {
@@ -217,7 +328,23 @@ export default {
       });
     },
     async submit() {
-      console.log(this.form);
+      if (this.$v.form.$invalid) {
+        this.$v.form.$touch();
+        if (this.$v.form.$error) {
+          this.$vs.notification({
+            title: "Alto ahi",
+            text: "Formulario con errores",
+            color: "danger",
+            position: "bottom-center",
+          });
+        }
+      } else {
+        let entry = moment(this.form.entryDate)
+        let exit = moment(this.form.exitDate)
+        this.form.paypament.coste = currency(this.form.service.coste).multiply(parseInt(exit.diff(entry, 'days'))+1)
+        console.log(this.form);
+        this.active = true;
+      }
     },
     async selectedRange() {
       this.form.service = {

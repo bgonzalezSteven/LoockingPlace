@@ -9,10 +9,12 @@ import Vuesax from "vuesax";
 import Vuelidate from "vuelidate";
 import "vuesax/dist/vuesax.css"; //Vuesax styles
 import money from 'v-money'
+import currency from 'currency.js'
  
 // register directive v-money and component <money>
 Vue.use(money, {precision: 4})
 Vue.use(Vuelidate);
+Vue.use(currency);
 Vue.use(Vuesax, {
   colors: {
     primary: "#072D44",
