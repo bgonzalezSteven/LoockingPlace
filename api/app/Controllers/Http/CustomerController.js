@@ -52,6 +52,10 @@ class CustomerController {
       GeneralInfo.service = infoRooms
     }
     if (PaypamentHotel.length > 0) {
+      PaypamentHotel.forEach(element => {
+        element.label = element.type,
+        element.value = element._id
+      })
       GeneralInfo.paypament = PaypamentHotel
     }
     response.send(GeneralInfo)

@@ -29,7 +29,9 @@
     "@adonisjs/validator": "^5.1.0",
     "@adonisjs/websocket": "^1.0.12",
     "adonis-websocket": "^1.0.4",
-    "lucid-mongo": "^3.1.6"
+    "lucid-mongo": "^3.1.6",
+    "moment": "^2.29.1",
+    "moment-range": "^4.0.2"
   },
   "devDependencies": {},
   "autoload": {
