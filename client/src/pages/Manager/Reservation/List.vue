@@ -8,57 +8,17 @@
           </vs-button>
         </div>
         <div class="center">
-          <vs-table dark>
-            <template #header>
-              <vs-input v-model="search" border placeholder="Search" />
-            </template>
-            <template slot="thead">
-              <vs-tr>
-                <vs-th>Tipo</vs-th>
-                <vs-th>Acciones</vs-th>
-              </vs-tr>
-            </template>
-            <template dense #tbody>
-              <vs-tr
-                :key="i"
-                v-for="(tr, i) in $vs.getPage(
-                  $vs.getSearch(date, search),
-                  page,
-                  max
-                )"
-                :data="tr"
-              >
-                <vs-td>{{ tr.type }}</vs-td>
-                <vs-td class="justify-center items-center">
-                  <div class="con-content">
-                    <div class="row items-center">
-                      <vs-button
-                        v-for="action in tr.actions"
-                        :key="action.icon"
-                        :class="`bg-${action.color}`"
-                        @click="redirect(action.to, action.icon, tr._id)"
-                      >
-                        <q-icon :name="action.icon" />
-                        <q-tooltip
-                          :content-class="`bg-${action.color}  shadow-4`"
-                          :offset="[10, 10]"
-                        >
-                          {{ action.title }}
-                        </q-tooltip>
-                      </vs-button>
-                    </div>
-                  </div>
-                </vs-td>
-              </vs-tr>
-            </template>
-            <template #footer>
-              <vs-pagination
-                dark
-                v-model="page"
-                :length="$vs.getLength(date, max)"
-              ></vs-pagination>
-            </template>
-          </vs-table>
+          <vue-cal
+            selected-date="2021-01-01"
+            :time-from="9 * 60"
+            :disable-views="['years', 'year']"
+            active-view="month"
+            hide-weekends
+            events-on-month-view="short"
+            :events="events"
+            style="height: 600px"
+          >
+          </vue-cal>
         </div>
       </div>
     </div>
@@ -75,7 +35,7 @@
       </template>
     </vs-dialog>
     <q-dialog v-model="band" persistent>
-      <q-card style="min-width: 380px;">
+      <q-card style="min-width: 380px">
         <q-bar class="bg-secondary">
           <q-space />
           <q-btn dense flat icon="close" v-close-popup>
@@ -87,7 +47,7 @@
         </q-card-section>
 
         <q-card-section>
-          <Form/>
+          <Form />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -95,13 +55,15 @@
 </template>
 <script>
 import Form from "../Reservation/Form.vue";
+import VueCal from "vue-cal";
 export default {
   mounted() {
-    // this.infoSolicity();
+    this.infoSolicity();
     this.$emit("setTittle", "Lista de Reservaciones");
   },
   components: {
     Form,
+    VueCal,
   },
   data() {
     return {
@@ -114,14 +76,16 @@ export default {
       ruta: "reservation",
       activeTooltip: false,
       band: false,
+      messages: [],
+      events: [],
     };
   },
   methods: {
     async infoSolicity() {
-      this.date = [];
+      this.events = [];
       this.$q.loading.show();
       await this.$api.get(`${this.ruta}`).then((res) => {
-        this.date = res;
+        this.events = res;
         this.$q.loading.hide();
       });
     },
@@ -145,3 +109,50 @@ export default {
   },
 };
 </script>
+ 
+<style>
+@import "../../../css/vuecal.css";
+.vuecal--month-view .vuecal__cell {
+  height: 80px;
+}
+
+.vuecal__menu {
+  background-color: #072d44;
+}
+.vuecal--month-view .vuecal__cell-content {
+  justify-content: flex-start;
+  height: 100%;
+  align-items: flex-end;
+}
+
+.vuecal--month-view .vuecal__cell-date {
+  padding: 4px;
+}
+.vuecal--month-view .vuecal__no-event {
+  display: none;
+}
+
+.vuecal__event.sport {
+  background-color: rgba(232, 0, 0, 0.9);
+  color: #000;
+}
+.vuecal__event.health {
+  background-color: rgba(0, 252, 13, 0.9);
+  color: #000;
+}
+.vuecal__event.business {
+  background-color: rgba(17, 0, 255, 0.9);
+  color: #fff;
+}
+.vuecal__event.leisure {
+  background-color: rgba(255, 0, 179, 0.9);
+  color: #000;
+}
+.vuecal__event--focus,
+.vuecal__event:focus {
+  box-shadow: 2px 2px 2px #000;
+  transform: translateY(-3px);
+  z-index: 3;
+  outline: none;
+}
+</style>

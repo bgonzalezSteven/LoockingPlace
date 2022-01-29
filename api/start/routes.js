@@ -94,7 +94,8 @@ addPrefixToGroup(
     // Rutas para los Clientes //
 
     // Rutas de las reservaciones //
-    Route.post('reservation', 'ReservationController.store')    
+    Route.post('reservation', 'ReservationController.store')
+    Route.get('reservation', 'ReservationController.index')
 
     // Rutas de las reservaciones //
 

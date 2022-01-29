@@ -15,10 +15,13 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "currency.js": "^2.0.4",
+    "dhtmlx-scheduler": "^5.3.13",
     "moment": "^2.29.1",
     "quasar": "^1.0.0",
     "v-money": "^0.8.1",
+    "vue-cal": "^3.10.1",
     "vue-i18n": "^8.0.0",
+    "vue-simple-calendar": "^6.0.3",
     "vuelidate": "^0.7.6",
     "vuesax": "^4.0.1-alpha.25"
   },
