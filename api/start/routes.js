@@ -93,6 +93,10 @@ addPrefixToGroup(
     Route.get('getCustomer', 'CustomerController.getinfo')
     // Rutas para los Clientes //
 
+    // Ruta de historico de Operaciones //
+    Route.post('historic', 'HistoricController.index')
+    // Ruta de historico de Operaciones //
+
     // Rutas de las reservaciones //
     Route.post('reservation', 'ReservationController.store')
     Route.get('reservation', 'ReservationController.index')

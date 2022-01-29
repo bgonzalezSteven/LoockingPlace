@@ -40,13 +40,7 @@
                     />
                     {{
                       // Funcion para encontrar el punto del index y mostrar el valor, tomando en consideracion su _id solamente
-                      options[
-                        options.findIndex(function () {
-                          if (options._id === form.custoomer) {
-                            return true;
-                          }
-                        })
-                      ].label
+                        (options.find(label => label._id === form.customer)).label
                     }}
                   </q-chip>
                   <q-badge v-else>*No seleccionado*</q-badge>
@@ -340,6 +334,9 @@ export default {
         this.options3 = res.paypament;
         this.$q.loading.hide();
       });
+    },
+    async cons() {
+      console.log(this.form.customer);
     },
     async submit() {
       if (this.$v.form.$invalid) {

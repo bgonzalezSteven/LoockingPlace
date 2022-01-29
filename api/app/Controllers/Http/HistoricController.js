@@ -3,6 +3,9 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
+const Historic = use('App/Models/Historic')
+const Paypament = use('App/Models/Paypament')
+const moment = use('moment');
 
 /**
  * Resourceful controller for interacting with historics
@@ -17,7 +20,26 @@ class HistoricController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view, params }) {
+    let information = []
+    const info = await request.all()
+    const dates = (await Historic.with('reservation').where({
+      date: {
+        $gte: new Date(info.entryDate),
+        $lte: new Date(info.exitDate)
+      }
+    }).fetch()).toJSON()
+    if (dates) {
+      for (let i in dates) {
+        const temp = dates[i].reservation
+        if (temp.length > 0) {
+          for (let j in temp) {
+            information.push({ rangeDate: `${moment(temp[j].entryDate).format('YYYY-MM-DD')} / ${moment(temp[j].exitDate).format('YYYY-MM-DD')}`, coste: temp[j].paypament.coste, ref: `${temp[j].paypament.ref ? temp[j].paypament.ref : 'N/R'}`, date: moment(dates[i].date).format('YYYY-MM-DD'), methods: (await Paypament.where('_id', temp[j].paypament.methods).first()).type })
+          }
+        }
+      }
+    }
+    response.send(information)
   }
 
   /**
@@ -29,7 +51,7 @@ class HistoricController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -40,7 +62,7 @@ class HistoricController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
   }
 
   /**
@@ -52,7 +74,7 @@ class HistoricController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
   }
 
   /**
@@ -64,7 +86,7 @@ class HistoricController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -75,7 +97,7 @@ class HistoricController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
   }
 
   /**
@@ -86,7 +108,7 @@ class HistoricController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
   }
 }
 

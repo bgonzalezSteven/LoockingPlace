@@ -238,6 +238,20 @@ export default {
               permission: "reservation.list",
             },
           ]
+        },
+        {
+          name: "Pagos",
+          url: "",
+          icon: "paid",
+          permission: "paypament",
+          children: [
+            {
+              name: "Historico",
+              url: "/historic",
+              icon: "receipt",
+              permission: "paypament.list",
+            },
+          ]
         }
       ],
     };

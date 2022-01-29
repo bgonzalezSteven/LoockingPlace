@@ -34,6 +34,8 @@ const routes = [
       { path: '/reservation', component: () => import('pages/Manager/Reservation/List.vue'), meta: { permission: 'reservation.list'} },
       { path: '/reservation/agg_reservation', component: () => import('pages/Manager/Reservation/Form.vue'), meta: { permission: 'reservation.list'} },
       { path: '/reservation/edit_reservation/:id', component: () => import('pages/Manager/Reservation/Form.vue'), meta: { permission: 'reservation.list'} },
+      // Rutas para verificar los historicos de Pagos
+      { path: '/historic', component: () => import('pages/Manager/Historic/List.vue'), meta: { permission: 'paypament.list'} },
     ]
   },
   {

@@ -46,7 +46,15 @@ const roleData = [
   {
     slug: 'reservation.client',
     name: 'Clientes',
-  }
+  },
+  {
+    slug: 'paypament',
+    name: 'Item de Menu para los historicos de pagos',
+  },
+  {
+    slug: 'paypament.list',
+    name: 'Historicos',
+  },
 ]
 class PermissionSeeder {
   async run() {
